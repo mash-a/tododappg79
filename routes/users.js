@@ -15,4 +15,21 @@ router.get('/', function(req, res, next) {
   })
 });
 
+//get a single user
+router.get('/:id', function(req, res, next){
+  knex('users')
+    .where('id', req.params.id)
+    .first()
+    .then(function(user){
+      knex('todos')
+      .where('user_id', req.params.id)
+      .then(function(todos){
+        res.render('user', {
+          user,
+          todos
+        })
+      })
+    })
+})
+
 module.exports = router;
