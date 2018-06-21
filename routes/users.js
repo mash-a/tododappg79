@@ -5,6 +5,9 @@ const environment = process.env.NODE_ENV || 'development';
 const knexConfig = require('../knexfile.js')[environment];
 const knex = require('knex')(knexConfig);
 
+//the technology for hashing passwords
+const bcrypt = require("bcrypt-as-promised");
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   // res.send('respond with a resource');
@@ -50,17 +53,24 @@ router.post("/:id", function(req, res, next){
 
 //add user
 router.post("/", (req, res, next) => {
-  knex('users')
-  .insert(req.body)
-  .then(() => {
-    knex('users')
-    .then(users => {
-      res.render('users', {
-        users
+  const {
+    username,
+    password
+  } = req.body;
+  bcrypt.hash(password, 12)
+    .then((hashed_password) => {
+      return knex('users').insert({
+        username, 
+        hashed_password
       })
-    })
+   })
+   .then(() => {
+    res.redirect('/users')
   })
-})
+  .catch(err => {
+    next(err);
+  })
+});
 
 router.delete("/:id", (req, res, next) => {
   knex('users')

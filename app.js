@@ -9,6 +9,7 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+const bcrypt = require('bcrypt-as-promised');
 
 
 // view engine setup
@@ -30,19 +31,24 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use("/", index);
 app.use('/users', users);
 
-app.use('/sign_in/', (req, res, next) => {
+app.post('/sign_in', (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
   knex('users')
   .where('username', username)
   .first()
   .then(user => {
-    if(user.password === password){
+    bcrypt.compare(password, user.hashed_password)
+    .then(()=> {
       res.redirect(`/users/${user.id}`)
-    }
-    else {
-      console.error("WRONG!")
-    }
+    })
+    .catch(() => {
+      console.log("hash fail");
+      res.redirect('/')
+    })
+  })
+  .catch(() => {
+    res.redirect('/')
   })
 })
 
