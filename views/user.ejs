@@ -5,10 +5,10 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1>Users</h1>
+    <h1>Welcome, <%= user.username %>!</h1>
     <ul>
-    <% for (var i = 0; i<users.length; i++) { %>
-      <li><a href=/users/<%=users[i].id%>></a><%= users[i].username %></a></li>
+    <% for (var i = 0; i<todos.length; i++) { %>
+      <li><%= users[i].username %></li>
     <% } %>
   </ul>
   </body>
