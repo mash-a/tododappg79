@@ -1,11 +1,21 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
+    <title>ToDo</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <h1>ToDo App</h1>
+    <p>Welcome to the ToDo App</p>
+    <h2>Sign In</h2>
+    <form action="/sign_in/" method="post">
+      <input type="text" name="username" placeholder="username">
+      <br>
+      <br>
+      <input type="text" name="password" placeholder="password">
+      <br>
+      <br>
+      <button>Log In</button>
+    </form>
   </body>
 </html>

@@ -62,4 +62,34 @@ router.post("/", (req, res, next) => {
   })
 })
 
+router.delete("/:id", (req, res, next) => {
+  knex('users')
+  .del()
+  .where('id', req.params.id)
+  .then(user => {
+    knex('todos')
+    .del()
+    .where('user_id', req.params.id)
+    .then(() => {
+      res.redirect('/users/')
+    })
+  })
+})
+
+
+// knex('users')
+//     .where('id', req.params.id)
+//     .first()
+//     .then(function(user){
+//       knex('todos')
+//       .where('user_id', req.params.id)
+//       .orderBy("id")
+//       .then(function(todos){
+//         res.render('user', {
+//           user,
+//           todos
+//         })
+//       })
+//     })
 module.exports = router;
+
