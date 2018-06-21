@@ -11,5 +11,10 @@
       <li><%= todos[i].task %></li>
     <% } %>
   </ul>
+  <form action=/users/<%=user.id %> method="post">
+      <h3>Add Task</h3>
+      <input type="text" placeholder="new task" name="task">
+      <button>Submit</button>
+  </form>
   </body>
 </html>
